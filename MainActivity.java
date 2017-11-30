@@ -1,7 +1,6 @@
 package com.example.kanayabuno.chromecast;
 
 
-
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +12,7 @@ import android.support.v7.app.MediaRouteButton;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.cast.MediaInfo;
@@ -39,6 +39,9 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements TextToSpeech.OnInitListener{
 
+    private TextView heartRateTextView;
+    private Handler mhandler = new Handler();
+    ImageView small;
 
     private TextView voiceInput;
     private TextView speakButton;
@@ -114,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
             audioMetadata.putString(MediaMetadata.KEY_TITLE, "Heartrate");
 
             //Load Media
-            MediaInfo mediaInfo = new MediaInfo.Builder(""+rate)
+            MediaInfo mediaInfo = new MediaInfo.Builder("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3")
                     .setContentType("audio/mpeg")
                     .setStreamType(MediaInfo.STREAM_TYPE_BUFFERED)
                     .setMetadata(audioMetadata)
@@ -161,6 +164,19 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        heartRateTextView = (TextView) findViewById(R.id.heartRateTextView);
+        small = (ImageView) findViewById(R.id.simageView);
+
+        /*ObjectAnimator scaleDown = ObjectAnimator.ofPropertyValuesHolder(small,
+                PropertyValuesHolder.ofFloat("scaleX", 1.2f),
+                PropertyValuesHolder.ofFloat("scaleY", 1.2f));
+        scaleDown.setDuration(500);
+
+        scaleDown.setRepeatCount(ObjectAnimator.INFINITE);
+        scaleDown.setRepeatMode(ObjectAnimator.REVERSE);
+
+        scaleDown.start();
+*/
         //Connect to Bluetooth
         DiscoveryListener me = new DiscoveryListener() {
             @Override
@@ -284,8 +300,9 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
                     if (result.get(0).equals("tired")){
                         voiceInput.setText("command recognized");
                         rate = getHeartrateData().getHeartrateBpm();
-                        //st = getHeartrateData().toString();
-                        //speakWords(""+rate);
+                        String st = getHeartrateData().toString();
+                        heartRateTextView.setText(rate + "");
+                        speakWords(""+rate);
                     } else {
                         //int rate = getHeartrateData().getHeartrateBpm();
                         //String st = getHeartrateData().toString();
