@@ -25,6 +25,8 @@ import com.google.android.gms.cast.framework.CastSession;
 import com.google.android.gms.cast.framework.SessionManager;
 import com.google.android.gms.cast.framework.SessionManagerListener;
 import com.google.android.gms.cast.framework.media.RemoteMediaClient;
+
+
 import com.wahoofitness.connector.HardwareConnector;
 import com.wahoofitness.connector.HardwareConnectorEnums;
 import com.wahoofitness.connector.HardwareConnectorTypes;
@@ -297,7 +299,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeech.OnIn
                     Log.d("myTag", "This is my message");
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    if (result.get(0).equals("tired")){
+                    if (result.get(0).equals("heart")){
                         voiceInput.setText("command recognized");
                         rate = getHeartrateData().getHeartrateBpm();
                         String st = getHeartrateData().toString();
